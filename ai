@@ -1,0 +1,39 @@
+document.getElementById('user-input').addEventListener("keyup", function(event) {
+    if (event.key === "Enter") {
+        submitMessage();
+    }
+});
+
+function submitMessage() {
+    const userInput = document.getElementById('user-input').value;
+    document.getElementById('user-input').value = '';
+
+    if (userInput.trim()) {
+        appendToChatWindow('You', userInput);
+
+        fetch('https://api.openai.com/v1/engines/davinci-codex/completions', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer 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'
+            },
+            body: JSON.stringify({
+                prompt: userInput,
+                max_tokens: 150
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            appendToChatWindow('Zoro', data.choices[0].text.trim());
+        })
+        .catch(error => console.error('Error:', error));
+    }
+}
+
+function appendToChatWindow(sender, message) {
+    const chatWindow = document.getElementById('output');
+    const messageDiv = document.createElement('div');
+    messageDiv.textContent = `${sender}: ${message}`;
+    chatWindow.appendChild(messageDiv);
+    chatWindow.scrollTop = chatWindow.scrollHeight;
+}
