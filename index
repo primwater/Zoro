@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Simple AI Website</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Chat with Zoro, our AI Assistant</h1>
+    </header>
+    <main>
+        <div id="chat-container">
+            <div id="chat-window">
+            	<div id="output"></div>
+            </div>
+            <input type="text" id="user-input" placeholder="Ask me anything...">
+            <button onclick="submitMessage()">Send</button>
+        </div>
+    </main>
+    <script src="script.js"></script>
+</body>
+</html>
