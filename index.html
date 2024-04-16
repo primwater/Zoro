@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Zoro Chatbot</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <h1>Welcome to Zoro Chatbot</h1>
+    <div id="chatbox">
+        <p id="botStarterMessage">Hi, I'm Zoro. How can I assist you today?</p>
+    </div>
+    <input id="textInput" type="text" placeholder="Type your message here...">
+    <input id="buttonInput" type="submit" value="Send">
+    <script>
+        function getBotResponse() {
+            var rawText = $("#textInput").val();
+            var userHtml = '<p class="userText"><span>' + rawText + '</span></p>';
+            $("#textInput").val("");
+            $("#chatbox").append(userHtml);
+            document.getElementById('chatbox').scrollTop = document.getElementById('chatbox').scrollHeight;
+            $.get("/get", { msg: rawText }).done(function(data) {
+                var botHtml = '<p class="botText"><span>' + data + '</span></p>';
+                $("#chatbox").append(botHtml);
+                document.getElementById('chatbox').scrollTop = document.getElementById('chatbox').scrollHeight;
+            });
+        }
+        $("#textInput").keypress(function(e) {
+            if(e.which == 13) {
+                getBotResponse();
+            }
+        });
+        $("#buttonInput").click(function() {
+            getBotResponse();
+        })
+    </script>
+    <style>
+        body {
+            background-color: #fafafa;
+        }
+        #textInput {
+            width: 40%;
+            height: 5ex;
+        }
+        #buttonInput {
+            width: 5%;
+            height: 5ex;
+        }
+        .userText {
+            color: blue;
+            font-family: Arial;
+        }
+        .botText {
+            color: green;
+            font-family: Arial;
+        }
+    </style>
+</body>
+</html>
